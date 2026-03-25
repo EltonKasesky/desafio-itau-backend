@@ -30,4 +30,9 @@ public class TransactionService {
         if (dto.getDataHora().isAfter(OffsetDateTime.now()))
             throw new TransactionInFutureException("A transação não pode ser feita no futuro.");
     }
+
+    public void deleteTransactions(){
+        if (TransactionFactory.getTransactions().isEmpty())
+            TransactionFactory.getTransactions().clear();
+    }
 }

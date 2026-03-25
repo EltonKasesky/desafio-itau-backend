@@ -31,4 +31,14 @@ public class TransactionController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @DeleteMapping
+    public ResponseEntity<Void> deleteTransaction(){
+        try {
+            service.deleteTransactions();
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e){
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 }
