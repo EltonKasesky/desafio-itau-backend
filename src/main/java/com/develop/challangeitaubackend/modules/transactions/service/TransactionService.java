@@ -1,5 +1,8 @@
 package com.develop.challangeitaubackend.modules.transactions.service;
 
+import com.develop.challangeitaubackend.infrastructure.logger.domain.Log;
+import com.develop.challangeitaubackend.infrastructure.logger.enums.LogTypesEnum;
+import com.develop.challangeitaubackend.infrastructure.logger.factory.LoggerFactory;
 import com.develop.challangeitaubackend.modules.transactions.dto.TransactionRequestDTO;
 import com.develop.challangeitaubackend.modules.transactions.entity.TransactionEntity;
 import com.develop.challangeitaubackend.modules.transactions.exception.TransactionInFutureException;
@@ -21,6 +24,13 @@ public class TransactionService {
                         dto.getDataHora()
                 )
         );
+
+        LoggerFactory.addLog(
+                new Log(
+                        LogTypesEnum.ADD,
+                        String.format("Transação adicionada com valor de %.2f em " + dto.getDataHora(), dto.getValor())
+                )
+        );
     }
 
     private void validateTransaction(TransactionRequestDTO dto) {
@@ -32,7 +42,15 @@ public class TransactionService {
     }
 
     public void deleteTransactions(){
-        if (TransactionFactory.getTransactions().isEmpty())
+        if (!TransactionFactory.getTransactions().isEmpty()) {
             TransactionFactory.getTransactions().clear();
+
+            LoggerFactory.addLog(
+                    new Log(
+                            LogTypesEnum.DELETE,
+                            "Transações Deletadas com sucesso."
+                    )
+            );
+        }
     }
 }
