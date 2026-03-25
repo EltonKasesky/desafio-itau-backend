@@ -11,10 +11,8 @@ import java.time.OffsetDateTime;
 @Data
 public class TransactionRequestDTO {
     @Schema(description = "Valor da transação", example = "150.0")
-    @NotBlank
     private Double valor;
 
     @Schema(description = "Data e hora da transação (não pode ser futura)", example = "2026-03-01T10:00:00-03:00")
-    @NotBlank
     private OffsetDateTime dataHora;
 }
