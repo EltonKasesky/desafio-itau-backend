@@ -1,7 +1,7 @@
 package com.develop.challengeitaubackend.modules.statistics.service;
 
 import com.develop.challengeitaubackend.modules.statistics.dto.StatisticsResponseDTO;
-import com.develop.challengeitaubackend.modules.transactions.factory.TransactionFactory;
+import com.develop.challengeitaubackend.modules.transactions.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ public class StatisticsService {
     Integer timeLimit;
 
     public StatisticsResponseDTO getStatistics() {
-        DoubleSummaryStatistics statistics = TransactionFactory.getTransactions()
+        DoubleSummaryStatistics statistics = TransactionRepository.getTransactions()
                 .stream()
                 .filter(t -> t.getDataHora().isAfter(getLimitForTransactions()))
                 .mapToDouble(t -> t.getValor().doubleValue())

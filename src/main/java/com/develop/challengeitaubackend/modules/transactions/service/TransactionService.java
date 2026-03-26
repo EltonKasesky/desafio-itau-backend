@@ -2,12 +2,12 @@ package com.develop.challengeitaubackend.modules.transactions.service;
 
 import com.develop.challengeitaubackend.infrastructure.logger.domain.Log;
 import com.develop.challengeitaubackend.infrastructure.logger.enums.LogTypesEnum;
-import com.develop.challengeitaubackend.infrastructure.logger.factory.LoggerFactory;
+import com.develop.challengeitaubackend.infrastructure.logger.repository.LoggerRepository;
 import com.develop.challengeitaubackend.modules.transactions.dto.TransactionRequestDTO;
 import com.develop.challengeitaubackend.modules.transactions.entity.TransactionEntity;
 import com.develop.challengeitaubackend.modules.transactions.exception.TransactionInFutureException;
 import com.develop.challengeitaubackend.modules.transactions.exception.TransactionNegativeException;
-import com.develop.challengeitaubackend.modules.transactions.factory.TransactionFactory;
+import com.develop.challengeitaubackend.modules.transactions.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -18,14 +18,14 @@ public class TransactionService {
     public void addTransaction(TransactionRequestDTO dto) {
         validateTransaction(dto);
 
-        TransactionFactory.getTransactions().add(
+        TransactionRepository.getTransactions().add(
                 new TransactionEntity(
                         dto.getValor(),
                         dto.getDataHora()
                 )
         );
 
-        LoggerFactory.addLog(
+        LoggerRepository.addLog(
                 new Log(
                         LogTypesEnum.ADD,
                         String.format("Transação adicionada com valor de %.2f em %s", dto.getValor(), dto.getDataHora())
@@ -42,10 +42,10 @@ public class TransactionService {
     }
 
     public void deleteTransactions(){
-        if (!TransactionFactory.getTransactions().isEmpty()) {
-            TransactionFactory.getTransactions().clear();
+        if (!TransactionRepository.getTransactions().isEmpty()) {
+            TransactionRepository.getTransactions().clear();
 
-            LoggerFactory.addLog(
+            LoggerRepository.addLog(
                     new Log(
                             LogTypesEnum.DELETE,
                             "Transações Deletadas com sucesso."

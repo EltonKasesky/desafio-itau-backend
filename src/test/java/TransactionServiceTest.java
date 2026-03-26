@@ -2,7 +2,7 @@ import com.develop.challengeitaubackend.modules.transactions.dto.TransactionRequ
 import com.develop.challengeitaubackend.modules.transactions.entity.TransactionEntity;
 import com.develop.challengeitaubackend.modules.transactions.exception.TransactionInFutureException;
 import com.develop.challengeitaubackend.modules.transactions.exception.TransactionNegativeException;
-import com.develop.challengeitaubackend.modules.transactions.factory.TransactionFactory;
+import com.develop.challengeitaubackend.modules.transactions.repository.TransactionRepository;
 import com.develop.challengeitaubackend.modules.transactions.service.TransactionService;
 import org.junit.jupiter.api.*;
 
@@ -19,7 +19,7 @@ class TransactionServiceTest {
     @BeforeEach
     void setUp() {
         service = new TransactionService();
-        TransactionFactory.getTransactions().clear();
+        TransactionRepository.getTransactions().clear();
     }
 
     // ===================== Sucesso =====================
@@ -30,7 +30,7 @@ class TransactionServiceTest {
         TransactionRequestDTO dto = new TransactionRequestDTO(new BigDecimal("100.0"), OffsetDateTime.now().minusSeconds(10));
 
         assertDoesNotThrow(() -> service.addTransaction(dto));
-        assertEquals(1, TransactionFactory.getTransactions().size());
+        assertEquals(1, TransactionRepository.getTransactions().size());
     }
 
     @Test
@@ -41,7 +41,7 @@ class TransactionServiceTest {
 
         service.addTransaction(dto);
 
-        TransactionEntity saved = TransactionFactory.getTransactions().get(0);
+        TransactionEntity saved = TransactionRepository.getTransactions().get(0);
         assertEquals(0, new BigDecimal("150.0").compareTo(saved.getValor()));
         assertEquals(now, saved.getDataHora());
     }
@@ -69,7 +69,7 @@ class TransactionServiceTest {
         service.addTransaction(new TransactionRequestDTO(new BigDecimal("200.0"), OffsetDateTime.now().minusSeconds(10)));
         service.addTransaction(new TransactionRequestDTO(new BigDecimal("300.0"), OffsetDateTime.now().minusSeconds(15)));
 
-        assertEquals(3, TransactionFactory.getTransactions().size());
+        assertEquals(3, TransactionRepository.getTransactions().size());
     }
 
     // ===================== Valor inválido =====================
@@ -99,7 +99,7 @@ class TransactionServiceTest {
 
         assertThrows(TransactionNegativeException.class,
                 () -> service.addTransaction(dto));
-        assertTrue(TransactionFactory.getTransactions().isEmpty());
+        assertTrue(TransactionRepository.getTransactions().isEmpty());
     }
 
     // ===================== Data inválida =====================
@@ -120,7 +120,7 @@ class TransactionServiceTest {
 
         assertThrows(TransactionInFutureException.class,
                 () -> service.addTransaction(dto));
-        assertTrue(TransactionFactory.getTransactions().isEmpty());
+        assertTrue(TransactionRepository.getTransactions().isEmpty());
     }
 
     // ===================== Combinações =====================

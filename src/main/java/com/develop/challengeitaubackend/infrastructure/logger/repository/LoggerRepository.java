@@ -1,9 +1,9 @@
-package com.develop.challengeitaubackend.infrastructure.logger.factory;
+package com.develop.challengeitaubackend.infrastructure.logger.repository;
 
 import com.develop.challengeitaubackend.infrastructure.logger.domain.Log;
 import com.develop.challengeitaubackend.infrastructure.logger.domain.Logger;
 
-public class LoggerFactory {
+public class LoggerRepository {
     private static Logger logger;
 
     public static void addLog(Log log){
