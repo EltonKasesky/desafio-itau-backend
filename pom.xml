@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.develop</groupId>
-    <artifactId>challange-itau-backend</artifactId>
+    <artifactId>challenge-itau-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>challange-itau-backend</name>
-    <description>challange-itau-backend</description>
+    <name>challenge-itau-backend</name>
+    <description>challenge-itau-backend</description>
     <url/>
     <licenses>
         <license/>
